@@ -15,20 +15,17 @@ definition af vektorsum og indre produkt for sandhedsværdier.
 -- fromEnum True = 1, fromEnum False = 0
 
 class InVector a where
-    -- Vektorsum: tager to vektorer og giver en ny vektor
-    (&&&) :: a -> a -> a
-    -- Indre produkt: tager to vektorer og giver et heltal
-    (***) :: a -> a -> Int
+  (&&&) :: a -> a -> a
+  (***) :: a -> a -> Int
 
 instance InVector Bool where
-
-    (&&&) :: Bool -> Bool -> Bool
-    x &&& y = x || y
-
-
-    (***) :: Bool -> Bool -> Int
-    x *** y = fromEnum (x && y)
+  (&&&) :: Bool -> Bool -> Bool
+  x &&& y = x || y
+  (***) :: Bool -> Bool -> Int
+  x *** y = fromEnum (x && y)
 
 instance (InVector a) => InVector (a, a, a) where
-    (x1, x2, x3) &&& (y1, y2, y3) = (x1 &&& y1, x2 &&& y2, x3 &&& y3)
-    (x1, x2, x3) *** (y1, y2, y3) = (x1 *** y1) + (x2 *** y2) + (x3 *** y3)
+  (&&&) :: (InVector a) => (a, a, a) -> (a, a, a) -> (a, a, a)
+  (x1, x2, x3) &&& (y1, y2, y3) = (x1 &&& y1, x2 &&& y2, x3 &&& y3)
+  (***) :: (InVector a) => (a, a, a) -> (a, a, a) -> Int
+  (x1, x2, x3) *** (y1, y2, y3) = (x1 *** y1) + (x2 *** y2) + (x3 *** y3)
